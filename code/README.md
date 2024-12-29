@@ -27,7 +27,7 @@ The encoded packets are sent sequentially to the receiver using the send method.
 
 Performance Measurement:
 
-The covert channel capacity is calculated as the number of bits transmitted per second. In this implementation, the capacity was measured as 39 bits/second.
+The covert channel capacity is calculated as the number of bits transmitted per second. In this implementation, the capacity was measured as ~37 bits/second.
 
 Receiver (receive function)
 
@@ -47,7 +47,7 @@ When a termination character (".") is detected, the decoded message is logged, a
 Covert Channel Capacity
 
 The measured covert channel capacity for this implementation is:
-39 bits per second
+ ~37 bits per second
 This value was obtained by dividing the total number of transmitted bits by the transmission duration.
 
 Configuration File (config.json)

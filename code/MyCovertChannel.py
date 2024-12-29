@@ -13,9 +13,7 @@ class MyCovertChannel(CovertChannelBase):
         self.stop_event = False 
 
     def send(self, log_file_name,source_ip, destination_ip):
-        """
-        Sends a binary message by encoding the message bits into a protocol-specific field (4-bit field in this case).
-        """
+       
         # Create NTP request packet
         binary_message = self.generate_random_binary_message_with_logging(log_file_name,16,16)
         ntp_request = self.create_ntp_packet(source_ip, destination_ip)
@@ -25,18 +23,12 @@ class MyCovertChannel(CovertChannelBase):
         for bit in binary_message:
             field_value = self.encode_bit_in_field(bit)
             ntp_request.recv = field_value  # Modify the protocol-specific field (e.g., Receive Timestamp)
-            print(f"field_value: {field_value}")
-            print(f"ntp time stamp: {ntp_request.recv}")
             # Send the modified NTP packet
             super().send(ntp_request)
         time_end = time.time()
         capacity = len(binary_message) / (time_end - time_start)
         print(f"Covert channel capacity: {capacity:.2f} bits per second")
     def receive(self, log_file_name):
-        """
-        Receives the NTP packets and decodes the 4-bit field to extract the binary message.
-        """
-        decoded_message = []
 
         def decode_packet(packet):
             return self._decode_packet(packet,log_file_name)
@@ -47,9 +39,7 @@ class MyCovertChannel(CovertChannelBase):
 
         # Join the decoded bits to reconstruct the binary messag
     def encode_bit_in_field(self, bit):
-        """
-        Encodes a single bit into the 4-bit protocol field.
-        """
+        
         if bit == '0':
             # Use values less than 8 for 0
             return random.randint(0, 2**31-1)
@@ -58,24 +48,18 @@ class MyCovertChannel(CovertChannelBase):
             return random.randint(2**31, 2**32-1)
 
     def decode_bit_from_field(self, field_value):
-        """
-        Decodes a 4-bit field value to extract the binary message bit.
-        """
+       
         if field_value < 2**31:
             return '0'
         else:
             return '1'
 
     def create_ntp_packet(self, source_ip, destination_ip):
-        """
-        Creates a basic NTP packet with the given client and server IP addresses.
-        """
+       
         ntp_request = IP(src=source_ip, dst=destination_ip) / UDP(sport=123, dport=123) / NTP()
         return ntp_request
     def _decode_packet(self, packet, log_file_name):
-        """
-        Function to process each received NTP packet, decode the bits and reconstruct the message.
-        """
+        
         if packet.haslayer(NTP):
             # Extract the field value from the NTP packet
             field_value = packet[NTP].recv
