@@ -64,8 +64,8 @@ source_ip : IP address of the sender
 
 destination_ip : IP address of the receiver
 
-log_file_name: File name to log sent messages for debugging and validation.
+log_file_name: File name to log sent messages 
 
 Receiver Parameters:
 
-log_file_name: File name to log sent messages for debugging and validation.
+log_file_name: File name to log received messages
