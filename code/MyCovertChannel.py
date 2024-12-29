@@ -17,14 +17,16 @@ class MyCovertChannel(CovertChannelBase):
         Sends a binary message by encoding the message bits into a protocol-specific field (4-bit field in this case).
         """
         # Create NTP request packet
-        binary_message = self.generate_random_binary_message_with_logging(log_file_name)
+        binary_message = self.generate_random_binary_message_with_logging(log_file_name,16,16)
         ntp_request = self.create_ntp_packet(source_ip, destination_ip)
         time_start = time.time()
+        
         # Send each bit of the binary message by encoding it in the 4-bit field
         for bit in binary_message:
             field_value = self.encode_bit_in_field(bit)
             ntp_request.recv = field_value  # Modify the protocol-specific field (e.g., Receive Timestamp)
-
+            print(f"field_value: {field_value}")
+            print(f"ntp time stamp: {ntp_request.recv}")
             # Send the modified NTP packet
             super().send(ntp_request)
         time_end = time.time()
@@ -50,16 +52,16 @@ class MyCovertChannel(CovertChannelBase):
         """
         if bit == '0':
             # Use values less than 8 for 0
-            return random.randint(0, 2^31-1)
+            return random.randint(0, 2**31-1)
         elif bit == '1':
             # Use values greater than or equal to 8 for 1
-            return random.randint(2^31, 2^32-1)
+            return random.randint(2**31, 2**32-1)
 
     def decode_bit_from_field(self, field_value):
         """
         Decodes a 4-bit field value to extract the binary message bit.
         """
-        if field_value < 2^31:
+        if field_value < 2**31:
             return '0'
         else:
             return '1'
