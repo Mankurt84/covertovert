@@ -5,9 +5,11 @@
 
 Covert Channel documentation
 ============================
+GROUP MEMBERS : SEMİH ERSAY - TİGİN DAĞDEVİREN
 
-Please add your names, group ID, and your link to the forked public repository here by editing `index.rst` in the docs folder.
+GROUP ID : 59
 
+REPOSITORY : https://github.com/Mankurt84/covertovert
 
 .. toctree::
    :maxdepth: 2
